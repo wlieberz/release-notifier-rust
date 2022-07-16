@@ -1,0 +1,3 @@
+Announcement - There is a new release available of the: Example Project
+
+Latest changelog entry, below:
