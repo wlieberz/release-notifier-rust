@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1
+ARG BUILDER_IMAGE=ekidd/rust-musl-builder:1.57.0
+ARG RUNTIME_IMAGE=alpine:3.16.0
+
+# ---------- Builder:
+FROM ${BUILDER_IMAGE} as builder
+ADD --chown=rust:rust . ./
+RUN cargo build --release
+
+# ---------- Runtime:
+FROM ${RUNTIME_IMAGE}
+LABEL project.repo="https://github.com/wlieberz/release-notifier-rust"
+WORKDIR /app
+COPY --from=builder \
+  /home/rust/src/target/x86_64-unknown-linux-musl/release/release-notifier-rust ./
+
+RUN apk upgrade --update-cache && \
+apk add shadow && \
+groupadd worker && \
+useradd --create-home --shell /bin/sh -g worker worker && \
+apk del shadow && \
+rm -rf /var/cache/apk/* && \
+chmod 775 /app/release-notifier-rust
+
+USER worker
+
+ENTRYPOINT ["./release-notifier-rust"]

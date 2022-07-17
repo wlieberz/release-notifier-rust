@@ -84,6 +84,15 @@ Did you find a problem with this automated notification?
 Please don't hesitate to reach out!
 ```
 
+## Docker images
+
+For convenience, Debian-slim and and Alpine based Dockerfiles are provided.
+
+I strongly reccomend using the Debian-slim version over Alpine, due to 
+potential issues with Rust compilation against musl-libc libraries.  That being
+said, the Alpine image should probably work fine. If you run into issues
+with the Alpine version, try the Debian version.
+
 ## Testing sending a notification locally
 
 Note: if you just want to preview the notification locally, and you don't care 
