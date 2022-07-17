@@ -62,3 +62,86 @@ pub fn send_message_via_slack_webhook(
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_multi_entry_changelog() {
+        let changelog_content = "\
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [1.2.26] - 2022-06-24
+- Many bugfixes
+- Much more stable. Use this version. 
+
+## [1.0.0] - 2022-06-16
+- Major breaking changes.
+- Much better now.
+- Many new features.
+
+## [0.1.0] - 2022-06-15
+- Initial release.";
+
+        let expected = "\
+## [1.2.26] - 2022-06-24
+- Many bugfixes
+- Much more stable. Use this version. 
+
+";
+        let result = get_latest_changelog_entry(&changelog_content);
+
+        assert_eq!(expected, result.unwrap());
+       
+    }
+
+    #[test]
+    fn test_single_entry_changelog() {
+        let changelog_content = "\
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [0.1.0] - 2022-06-25
+- Initial release.
+
+End of File";
+
+        let expected = "\
+## [0.1.0] - 2022-06-25
+- Initial release.
+
+End of File";
+        let result = get_latest_changelog_entry(&changelog_content);
+
+        assert_eq!(expected, result.unwrap());
+       
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_invalid_format_changelog() {
+        let changelog_content = "\
+# Changelog
+
+This project will fail to parse this changelog since it doesn't contain 
+a valid header for each version.
+
+- 0.1.7:
+    - Minor changes and bugfixes.
+
+- 0.0.1:
+    - Initial release.
+";
+
+        get_latest_changelog_entry(&changelog_content).unwrap();        
+       
+    }
+}
