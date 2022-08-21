@@ -177,3 +177,22 @@ Note: despite the error `event: error (msg: read ECONNRESET)` this type of
 response, as seen by the echo-server actually works OK when sending to a real
 Slack channel. I'm not sure what this error is about - probably something silly
 I'm doing wrong, but it isn't a show-stopper.
+
+# Maintainer Docs
+
+This section is for the maintainers of this project, and should be ignored by 
+everyone else.
+
+### Preparing a new release checklist:
+
+- Checkout dev branch.
+- Commit changes to dev branch.
+- Push dev branch to origin (GitHub).
+- Ensure unit-tests are passing. 
+- Update the changelog.
+- Increment the version in `VERSION.txt`.
+- Open a pull-request.
+- Merge PR into main branch.
+  - The merge should squash commits.
+- After merge, add and push a tag (matching the version in `VERSION.txt`)
+  - Use an annotated tag and push with `-o ci.skip`.

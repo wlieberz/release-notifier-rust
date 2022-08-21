@@ -4,10 +4,7 @@ use std::error::Error;
 pub fn get_changelog_content(changelog: &String) -> String {
     use std::fs;
 
-    let changelog_content_string =
-        fs::read_to_string(changelog).expect("Error reading the changelog file");
-
-    return changelog_content_string;
+    fs::read_to_string(changelog).expect("Error reading the changelog file")
 }
 
 pub fn get_latest_changelog_entry(changelog_content: &str) -> Result<&str, SimpleError> {
@@ -21,7 +18,7 @@ pub fn get_latest_changelog_entry(changelog_content: &str) -> Result<&str, Simpl
     // This vector will store the offsets of the start of each regex match:
     let mut match_start_offsets = Vec::new();
     // Populate the vector:
-    for cap in re.find_iter(&changelog_content) {
+    for cap in re.find_iter(changelog_content) {
         match_start_offsets.push(cap.start())
     }
 
@@ -30,16 +27,16 @@ pub fn get_latest_changelog_entry(changelog_content: &str) -> Result<&str, Simpl
         let first_header = match_start_offsets[0];
         let second_header = match_start_offsets[1];
         let latest_changelog_entry = &changelog_content[first_header..second_header];
-        return Ok(latest_changelog_entry);
+        Ok(latest_changelog_entry)
     } else if match_start_offsets.len() == 1 {
         // Handling 1 changelog "header":
         let first_header = match_start_offsets[0];
         let latest_changelog_entry = &changelog_content[first_header..];
-        return Ok(latest_changelog_entry);
+        Ok(latest_changelog_entry)
     } else {
-        return Err(SimpleError::new(
+        Err(SimpleError::new(
             "No valid changelog headers found. Is the changelog in a supported format?",
-        ));
+        ))
     }
 }
 
@@ -97,7 +94,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         let result = get_latest_changelog_entry(&changelog_content);
 
         assert_eq!(expected, result.unwrap());
-       
     }
 
     #[test]
@@ -122,7 +118,6 @@ End of File";
         let result = get_latest_changelog_entry(&changelog_content);
 
         assert_eq!(expected, result.unwrap());
-       
     }
 
     #[test]
@@ -141,7 +136,6 @@ a valid header for each version.
     - Initial release.
 ";
 
-        get_latest_changelog_entry(&changelog_content).unwrap();        
-       
+        get_latest_changelog_entry(&changelog_content).unwrap();
     }
 }

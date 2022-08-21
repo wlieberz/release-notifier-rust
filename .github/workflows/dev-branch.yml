@@ -1,0 +1,70 @@
+name: Dev Branch
+on: [push]
+jobs:
+
+  unit-tests:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Run cargo test
+        run: cargo test
+
+      - name: Fail if cargo fmt needed
+        run: cargo fmt --check
+
+  release_debian_image_dev:
+    needs: unit-tests
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      CONTAINER_REPO: "wlieberz/release-notifier-rust-dev"
+      BASE_IMG: "debian-bullseye-slim"
+      DOCKERFILE: "Dockerfile.debian-slim"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker Build and Tag
+        run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${GITHUB_SHA}-${BASE_IMG} ./
+
+      - name: DockerHub Login
+        env:
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: echo $DOCKERHUB_TOKEN | docker login --username wlieberz --password-stdin
+
+      - name: Docker Push
+        run: docker push ${CONTAINER_REPO}:${GITHUB_SHA}-${BASE_IMG}
+
+      - name: DockerHub Logout
+        run: docker logout
+
+  release_alpine_image_dev:
+    needs: unit-tests
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      CONTAINER_REPO: "wlieberz/release-notifier-rust-dev"
+      BASE_IMG: "alpine-3.16.0"
+      DOCKERFILE: "Dockerfile.alpine"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker Build and Tag
+        run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${GITHUB_SHA}-${BASE_IMG} ./
+
+      - name: DockerHub Login
+        env:
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: echo $DOCKERHUB_TOKEN | docker login --username wlieberz --password-stdin
+
+      - name: Docker Push
+        run: docker push ${CONTAINER_REPO}:${GITHUB_SHA}-${BASE_IMG}
+
+      - name: DockerHub Logout
+        run: docker logout
