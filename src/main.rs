@@ -60,4 +60,3 @@ fn main() {
             .expect("Error sending message to Slack");
     }
 }
-
