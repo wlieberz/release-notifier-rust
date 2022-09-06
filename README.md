@@ -200,11 +200,11 @@ everyone else.
 ### Preparing a new release checklist:
 
 - Checkout dev branch.
-- Commit changes to dev branch.
-- Push dev branch to origin (GitHub).
-- Ensure unit-tests are passing. 
 - Update the changelog.
 - Increment the version in `VERSION.txt`.
+- Commit changes to dev branch.
+- Push dev branch to origin (GitHub).
+- Ensure unit-tests are passing.
 - Open a pull-request.
 - Merge PR into main branch.
   - The merge should squash commits.
