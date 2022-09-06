@@ -58,8 +58,8 @@ fn main() {
 
         let slack_webhook_url = match slack_webhook_get_result {
             Ok(value) => value,
-            Err(error) => {
-                eprintln!("[ERROR] error accessing environment variable '{key}': '{error}'.");
+            Err(e) => {
+                eprintln!("[ERROR] error accessing environment variable {key} : {e}");
                 process::exit(1);
             }
         };
@@ -70,8 +70,8 @@ fn main() {
             Ok(()) => {
                 println!("[INFO] sucessfully sent to Slack.");
             }
-            Err(error) => {
-                eprintln!("[ERROR] error sending to Slack: '{error}'.");
+            Err(e) => {
+                eprintln!("[ERROR] error sending to Slack: {e}");
                 process::exit(2);
             }
         };
