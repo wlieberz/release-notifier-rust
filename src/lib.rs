@@ -140,9 +140,9 @@ a valid header for each version.
         get_latest_changelog_entry(&changelog_content).unwrap();
     }
 
-#[test]
-fn test_changelog_with_v_lowercase() {
-    let changelog_content = "\
+    #[test]
+    fn test_changelog_with_v_lowercase() {
+        let changelog_content = "\
 # Changelog
 All notable changes to this project will be documented in this file.
 
@@ -161,20 +161,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [v0.1.0] - 2022-06-15
 - Initial release.";
 
-    let expected = "\
+        let expected = "\
 ## [v1.2.26] - 2022-06-24
 - Many bugfixes
 - Much more stable. Use this version.
 
 ";
-    let result = get_latest_changelog_entry(&changelog_content);
+        let result = get_latest_changelog_entry(&changelog_content);
 
-    assert_eq!(expected, result.unwrap());
-}
+        assert_eq!(expected, result.unwrap());
+    }
 
-#[test]
-fn test_changelog_with_v_uppercase() {
-    let changelog_content = "\
+    #[test]
+    fn test_changelog_with_v_uppercase() {
+        let changelog_content = "\
 # Changelog
 All notable changes to this project will be documented in this file.
 
@@ -193,15 +193,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [V0.1.0] - 2022-06-15
 - Initial release.";
 
-    let expected = "\
+        let expected = "\
 ## [V1.2.26] - 2022-06-24
 - Many bugfixes
 - Much more stable. Use this version.
 
 ";
-    let result = get_latest_changelog_entry(&changelog_content);
+        let result = get_latest_changelog_entry(&changelog_content);
 
-    assert_eq!(expected, result.unwrap());
-}
-
+        assert_eq!(expected, result.unwrap());
+    }
 }
