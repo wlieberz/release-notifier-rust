@@ -93,6 +93,20 @@ potential issues with Rust compilation against musl-libc libraries.  That being
 said, the Alpine image should probably work fine. If you run into issues
 with the Alpine version, try the Debian version.
 
+If you want to use a pre-built Docker image, you can find it on DockerHub:
+
+[https://hub.docker.com/r/wlieberz/release-notifier-rust/tags](https://hub.docker.com/r/wlieberz/release-notifier-rust/tags)
+
+The tag format is:
+
+<application-version>-<base-image-version>
+
+For example:
+
+```bash
+docker pull wlieberz/release-notifier-rust:0.2.1-alpine-3.16.0
+```
+
 ## Testing sending a notification locally
 
 Note: if you just want to preview the notification locally, and you don't care 

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2022-09-05
+- Added ability to parse changelog headers which include the prefix "v"
+  - i.e., this header is now handled correctly: `## [v0.3.0] - 2022-09-05`.
+  - The "v" is case insensitive, so: `## [V0.3.0] - 2022-09-05` is also valid.
+
 ## [0.2.1] - 2022-09-04
 - Added CI pipeline to project to run unit-tests.
 - Added job to CI pipeline to fail if cargo fmt needed.
