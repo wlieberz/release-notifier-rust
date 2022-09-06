@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2022-09-05
+- The SLACK_WEBHOOK_URL environment var is no longer required when using the
+  `--no-send` option.
+
 ## [0.3.0] - 2022-09-05
 - Added ability to parse changelog headers which include the prefix "v"
   - i.e., this header is now handled correctly: `## [v0.3.0] - 2022-09-05`.

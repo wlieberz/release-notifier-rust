@@ -34,10 +34,6 @@ fn main() {
 
     let args = Args::parse();
 
-    // Get Slack webhook url from environment variable:
-    let key = "SLACK_WEBHOOK_URL";
-    let slack_webhook_url = env::var(key).expect("ERROR Getting $SLACK_WEBHOOK_URL env var");
-
     // Read changelog file and store in memory as string:
     let changelog_content_string = get_changelog_content(&args.changelog);
 
@@ -56,6 +52,9 @@ fn main() {
     if args.no_send {
         print!("{}", &message);
     } else {
+        let key = "SLACK_WEBHOOK_URL";
+        let slack_webhook_url = env::var(key).expect("ERROR Getting $SLACK_WEBHOOK_URL env var");
+
         send_message_via_slack_webhook(&message, &slack_webhook_url)
             .expect("Error sending message to Slack");
     }
