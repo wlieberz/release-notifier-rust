@@ -1,6 +1,5 @@
 use clap::Parser;
 use std::env;
-use std::process;
 
 use release_notifier_rust::*;
 
@@ -54,26 +53,9 @@ fn main() {
         print!("{}", &message);
     } else {
         let key = "SLACK_WEBHOOK_URL";
-        let slack_webhook_get_result = env::var(key);
+        let slack_webhook_url = env::var(key).expect("ERROR Getting $SLACK_WEBHOOK_URL env var");
 
-        let slack_webhook_url = match slack_webhook_get_result {
-            Ok(value) => value,
-            Err(e) => {
-                eprintln!("[ERROR] error accessing environment variable {key} : {e}");
-                process::exit(1);
-            }
-        };
-
-        let send_result = send_message_via_slack_webhook(&message, &slack_webhook_url);
-
-        match send_result {
-            Ok(()) => {
-                println!("[INFO] sucessfully sent to Slack.");
-            }
-            Err(e) => {
-                eprintln!("[ERROR] error sending to Slack: {e}");
-                process::exit(2);
-            }
-        };
+        send_message_via_slack_webhook(&message, &slack_webhook_url)
+            .expect("Error sending message to Slack");
     }
 }
