@@ -53,10 +53,11 @@ pub async fn send_message_via_slack_webhook(
 
     let client = reqwest::Client::new();
 
-    client.post(slack_webhook_url)
-    .json(&payload_data)
-    .send()
-    .await?;
+    client
+        .post(slack_webhook_url)
+        .json(&payload_data)
+        .send()
+        .await?;
 
     Ok(())
 }
