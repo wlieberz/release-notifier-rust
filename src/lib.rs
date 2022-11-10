@@ -41,7 +41,8 @@ pub fn get_latest_changelog_entry(changelog_content: &str) -> Result<&str, Simpl
     }
 }
 
-pub fn send_message_via_slack_webhook(
+#[tokio::main]
+pub async fn send_message_via_slack_webhook(
     message: &str,
     slack_webhook_url: &str,
 ) -> Result<(), Box<dyn Error>> {
@@ -50,13 +51,12 @@ pub fn send_message_via_slack_webhook(
     let mut payload_data = HashMap::new();
     payload_data.insert("text", &message);
 
-    let client = reqwest::blocking::Client::new();
+    let client = reqwest::Client::new();
 
-    client
-        .post(slack_webhook_url)
-        .json(&payload_data)
-        .send()
-        .expect("Error sending POST to Slack url");
+    client.post(slack_webhook_url)
+    .json(&payload_data)
+    .send()
+    .await?;
 
     Ok(())
 }
