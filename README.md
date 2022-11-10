@@ -99,7 +99,7 @@ If you want to use a pre-built Docker image, you can find it on DockerHub:
 
 The tag format is:
 
-<application-version>-<base-image-version>
+`<application-version>-<base-image-version>`
 
 For example:
 
@@ -190,7 +190,9 @@ A reasonable request might look something like this:
 Note: despite the error `event: error (msg: read ECONNRESET)` this type of 
 response, as seen by the echo-server actually works OK when sending to a real
 Slack channel. I'm not sure what this error is about - probably something silly
-I'm doing wrong, but it isn't a show-stopper.
+I'm doing wrong, but it isn't a show-stopper. 2022-11-09 update: Interestingly,
+I'm not seeing these `event: error` errors now since switching from the
+blocking to the async `reqwest` client. Added bonus, I guess. 🦾
 
 # Maintainer Docs
 
