@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONTAINER_REPO: "wlieberz/release-notifier-rust"
-      BASE_IMG: "debian-bullseye-slim"
+      BASE_IMG: "debian-bookworm-slim"
       DOCKERFILE: "Dockerfile.debian-slim"
     steps:
       - uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONTAINER_REPO: "wlieberz/release-notifier-rust"
-      BASE_IMG: "alpine-3.16.0"
+      BASE_IMG: "alpine-3.18.3"
       DOCKERFILE: "Dockerfile.alpine"
     steps:
       - uses: actions/checkout@v3

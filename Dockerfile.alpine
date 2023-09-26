@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 ARG BUILDER_IMAGE=ekidd/rust-musl-builder:1.57.0
-ARG RUNTIME_IMAGE=alpine:3.16.0
+ARG RUNTIME_IMAGE=alpine:3.18.3
 
 # ---------- Builder:
 FROM ${BUILDER_IMAGE} as builder
