@@ -10,7 +10,7 @@ jobs:
       BASE_IMG: "debian-bookworm-slim"
       DOCKERFILE: "Dockerfile.debian-slim"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get App Version
         run: echo "APP_VER=$(cat VERSION.txt)" >> $GITHUB_ENV
@@ -40,7 +40,7 @@ jobs:
       BASE_IMG: "alpine-3.18.3"
       DOCKERFILE: "Dockerfile.alpine"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Get App Version
         run: echo "APP_VER=$(cat VERSION.txt)" >> $GITHUB_ENV

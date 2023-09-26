@@ -6,7 +6,7 @@ jobs:
     if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
@@ -28,7 +28,7 @@ jobs:
       BASE_IMG: "debian-bookworm-slim"
       DOCKERFILE: "Dockerfile.debian-slim"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Docker Build and Tag
         run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${GITHUB_SHA}-${BASE_IMG} ./
@@ -53,7 +53,7 @@ jobs:
       BASE_IMG: "alpine-3.18.3"
       DOCKERFILE: "Dockerfile.alpine"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Docker Build and Tag
         run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${GITHUB_SHA}-${BASE_IMG} ./
