@@ -6,9 +6,7 @@ ARG RUNTIME_IMAGE=debian:bookworm-slim
 FROM ${BUILDER_IMAGE} as builder
 WORKDIR /build
 COPY ./ ./
-RUN apt-get update && \
-apt-get install --yes libssl-dev pkg-config && \
-cargo build --release
+RUN cargo build --release
 
 # ---------- Runtime:
 FROM ${RUNTIME_IMAGE}
