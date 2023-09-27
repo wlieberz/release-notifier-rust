@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CONTAINER_REPO: "wlieberz/release-notifier-rust"
-      BASE_IMG: "debian-bookworm-slim"
+      BASE_IMG: "debian-12-bookworm-slim"
       DOCKERFILE: "Dockerfile.debian-slim"
     steps:
       - uses: actions/checkout@v4
