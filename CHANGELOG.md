@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2023-09-26
+### Changed
+- Dependencies switched to [Rustls](https://github.com/rustls/rustls)
+
 ## [0.5.0] - 2022-11-09
 ### Changed
 - `reqwest` call has been changed from blocking to async.
