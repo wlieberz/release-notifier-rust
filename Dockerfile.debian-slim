@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
 ARG BUILDER_IMAGE=rust:slim-bookworm
+
 ARG RUNTIME_IMAGE=debian:bookworm-slim
 
 # ---------- Builder:
@@ -8,6 +9,12 @@ FROM ${BUILDER_IMAGE} as builder
 WORKDIR /build
 
 COPY ./ ./
+
+# Fail if cargo fmt needed
+RUN rustup component add rustfmt && cargo fmt --check
+
+# Unit tests
+RUN cargo test
 
 RUN cargo build --release
 
@@ -28,4 +35,4 @@ RUN apt-get update && \
 
 USER worker
 
-ENTRYPOINT ["./release-notifier-rust"]
+ENTRYPOINT ["/app/release-notifier-rust"]
