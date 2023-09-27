@@ -4,24 +4,27 @@ ARG RUNTIME_IMAGE=debian:bookworm-slim
 
 # ---------- Builder:
 FROM ${BUILDER_IMAGE} as builder
+
 WORKDIR /build
+
 COPY ./ ./
-RUN apt-get update && \
-  apt-get install --yes pkg-config && \
-  cargo build --release
+
+RUN cargo build --release
 
 # ---------- Runtime:
 FROM ${RUNTIME_IMAGE}
+
 LABEL project.repo="https://github.com/wlieberz/release-notifier-rust"
+
 WORKDIR /app
 COPY --from=builder /build/target/release/release-notifier-rust ./
 
 RUN apt-get update && \
-apt-get upgrade --yes && \
-groupadd worker && \
-useradd --create-home --shell /bin/bash -g worker worker && \
-apt-get clean && \
-chmod 775 /app/release-notifier-rust
+  apt-get upgrade --yes && \
+  groupadd worker && \
+  useradd --create-home --shell /bin/bash -g worker worker && \
+  apt-get clean && \
+  chmod 775 /app/release-notifier-rust
 
 USER worker
 
