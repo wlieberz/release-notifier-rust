@@ -6,7 +6,9 @@ ARG RUNTIME_IMAGE=debian:bookworm-slim
 FROM ${BUILDER_IMAGE} as builder
 WORKDIR /build
 COPY ./ ./
-RUN cargo build --release
+RUN apt-get update && \
+  apt-get install --yes pkg-config && \
+  cargo build --release
 
 # ---------- Runtime:
 FROM ${RUNTIME_IMAGE}
