@@ -1,4 +1,4 @@
-name: Dev Branch
+name: dev
 on: [push]
 jobs:
   release_debian_image_dev:
