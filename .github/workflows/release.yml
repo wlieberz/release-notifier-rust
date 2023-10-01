@@ -1,25 +1,21 @@
-name: Main Branch
-on: [push]
+name: release
+on:
+  push:
+    tags:
+      - v*
 jobs:
 
   release_debian_image_prod:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       CONTAINER_REPO: "wlieberz/release-notifier-rust"
-      BASE_IMG: "debian-bullseye-slim"
+      BASE_IMG: "debian-12-bookworm-slim"
       DOCKERFILE: "Dockerfile.debian-slim"
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Get App Version
-        run: echo "APP_VER=$(cat VERSION.txt)" >> $GITHUB_ENV
-
-      - name: Show App Version
-        run: echo "${{ env.APP_VER }}"
+      - uses: actions/checkout@v4
 
       - name: Docker Build and Tag
-        run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${{ env.APP_VER }}-${BASE_IMG} ./
+        run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${GITHUB_REF_NAME}-${BASE_IMG} ./
 
       - name: DockerHub Login
         env:
@@ -27,29 +23,22 @@ jobs:
         run: echo $DOCKERHUB_TOKEN | docker login --username wlieberz --password-stdin
 
       - name: Docker Push
-        run: docker push ${CONTAINER_REPO}:${{ env.APP_VER }}-${BASE_IMG} 
+        run: docker push ${CONTAINER_REPO}:${GITHUB_REF_NAME}-${BASE_IMG} 
 
       - name: DockerHub Logout
         run: docker logout
 
   release_alpine_image_prod:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       CONTAINER_REPO: "wlieberz/release-notifier-rust"
-      BASE_IMG: "alpine-3.16.0"
+      BASE_IMG: "alpine-3.18.3"
       DOCKERFILE: "Dockerfile.alpine"
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Get App Version
-        run: echo "APP_VER=$(cat VERSION.txt)" >> $GITHUB_ENV
-
-      - name: Show App Version
-        run: echo "${{ env.APP_VER }}"
+      - uses: actions/checkout@v4
 
       - name: Docker Build and Tag
-        run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${{ env.APP_VER }}-${BASE_IMG} ./
+        run: docker build --file ${DOCKERFILE} --tag ${CONTAINER_REPO}:${GITHUB_REF_NAME}-${BASE_IMG} ./
 
       - name: DockerHub Login
         env:
@@ -57,7 +46,7 @@ jobs:
         run: echo $DOCKERHUB_TOKEN | docker login --username wlieberz --password-stdin
 
       - name: Docker Push
-        run: docker push ${CONTAINER_REPO}:${{ env.APP_VER }}-${BASE_IMG} 
+        run: docker push ${CONTAINER_REPO}:${GITHUB_REF_NAME}-${BASE_IMG} 
 
       - name: DockerHub Logout
         run: docker logout
